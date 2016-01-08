@@ -1,0 +1,40 @@
+
+# travis-ci configuration
+
+language: cpp
+matrix:
+  include:
+    - env: GCC_VERSION=5 BUILD_TYPE=Release
+      os: linux
+      addons: &gcc5
+        apt:
+          packages:
+            - g++-5
+          sources:
+            - ubuntu-toolchain-r-test
+
+# Install dependencies
+before_install:
+  - export CHECKOUT_PATH=`pwd`;
+
+  - export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"
+
+  - which $CXX
+  - which $CC
+  - $CXX --version
+
+install:
+  - cd $CHECKOUT_PATH
+
+  - export CXX_FLAGS=""
+  - export CXX_LINKER_FLAGS=""
+  - if [ -z "$BUILD_TYPE" ]; then export BUILD_TYPE=Release; fi
+
+  - mkdir -p build && cd build
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" -DCMAKE_EXE_LINKER_FLAGS="${CXX_LINKER_FLAGS}"
+
+script:
+  - make verify
+
+notifications:
+  email: false

@@ -1,0 +1,3 @@
+# lambda
+
+Functional C++ library
