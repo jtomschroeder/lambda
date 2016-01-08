@@ -46,7 +46,7 @@ TEST(lambda, bind_mem_fn_smart_ptr) {
 }
 
 TEST(lambda, bind_mem_fn_const_smart_ptr) {
-   let thing = std::make_shared<Thing>();
+   const auto thing = std::make_shared<Thing>();
 
    ASSERT_EQ(lmd::bind(&Thing::fn)(thing, 1, 2, 3), 6);
    ASSERT_EQ(lmd::bind(&Thing::fn, thing)(1, 2, 3), 6);

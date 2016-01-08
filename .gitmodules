@@ -1,3 +1,6 @@
 [submodule "vendor/googletest"]
 	path = vendor/googletest
 	url = https://github.com/google/googletest.git
+[submodule "vendor/range"]
+	path = vendor/range
+	url = https://github.com/ericniebler/range-v3.git
