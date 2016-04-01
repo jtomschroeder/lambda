@@ -3,6 +3,7 @@
 #define LAMBDA_FUNCTION_TRAITS_H
 
 #include <type_traits>
+#include <array>
 
 namespace lambda {
 
