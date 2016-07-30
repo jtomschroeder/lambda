@@ -15,29 +15,27 @@ struct function_traits<R (*)(Args...)> : public function_traits<R(Args...)> {};
 
 template <class R, class... Args>
 struct function_traits<R(Args...)> {
-   using return_t = R;
+    using return_t = R;
 
-   static constexpr std::size_t arity = sizeof...(Args);
+    static constexpr std::size_t arity = sizeof...(Args);
 
-   template <std::size_t N>
-   struct argument {
-      static_assert(N < arity, "error: invalid parameter index.");
-      using type = typename std::tuple_element<N, std::tuple<Args...>>::type;
-   };
+    template <std::size_t N>
+    struct argument {
+        static_assert(N < arity, "error: invalid parameter index.");
+        using type = typename std::tuple_element<N, std::tuple<Args...>>::type;
+    };
 
-   template <std::size_t N>
-   using argument_t = typename argument<N>::type;
+    template <std::size_t N>
+    using argument_t = typename argument<N>::type;
 };
 
 // member function pointer
 template <class C, class R, class... Args>
-struct function_traits<R (C::*)(Args...)>
-    : public function_traits<R(C &, Args...)> {};
+struct function_traits<R (C::*)(Args...)> : public function_traits<R(C &, Args...)> {};
 
 // const member function pointer
 template <class C, class R, class... Args>
-struct function_traits<R (C::*)(Args...) const>
-    : public function_traits<R(C &, Args...)> {};
+struct function_traits<R (C::*)(Args...) const> : public function_traits<R(C &, Args...)> {};
 
 // member object pointer
 template <class C, class R>
@@ -47,21 +45,21 @@ struct function_traits<R(C::*)> : public function_traits<R(C &)> {};
 template <class F>
 struct function_traits {
 private:
-   using call_t = function_traits<decltype(&F::operator())>;
+    using call_t = function_traits<decltype(&F::operator())>;
 
 public:
-   using return_t = typename call_t::return_t;
+    using return_t = typename call_t::return_t;
 
-   static constexpr std::size_t arity = call_t::arity - 1;
+    static constexpr std::size_t arity = call_t::arity - 1;
 
-   template <std::size_t N>
-   struct argument {
-      static_assert(N < arity, "error: invalid parameter index.");
-      using type = typename call_t::template argument<N + 1>::type;
-   };
+    template <std::size_t N>
+    struct argument {
+        static_assert(N < arity, "error: invalid parameter index.");
+        using type = typename call_t::template argument<N + 1>::type;
+    };
 
-   template <std::size_t N>
-   using argument_t = typename argument<N>::type;
+    template <std::size_t N>
+    using argument_t = typename argument<N>::type;
 };
 
 template <class F>
