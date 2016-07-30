@@ -12,4 +12,7 @@
 #include "compose.hpp"
 #include "flip.hpp"
 
+#include "macros.hpp"
+#include "maybe.hpp"
+
 #endif // LAMBDA_LAMBDA_H
