@@ -2,6 +2,8 @@
 #ifndef LAMBDA_FLIP_H
 #define LAMBDA_FLIP_H
 
+#include <utility>
+
 namespace lambda {
 
 template <typename F>

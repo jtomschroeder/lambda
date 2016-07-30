@@ -3,7 +3,9 @@
 #define LAMBDA_CURRY_H
 
 #include "type_traits.hpp"
+
 #include <tuple>
+#include <functional>
 
 namespace lambda {
 

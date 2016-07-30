@@ -4,6 +4,9 @@
 
 #include "invoke.hpp"
 
+#include <array>
+#include <utility>
+
 namespace lambda {
 
 namespace detail {
