@@ -17,7 +17,7 @@ constexpr auto some(T &&value) {
 constexpr auto none = std::experimental::nullopt;
 
 template <class T, class F>
-auto operator>=(Maybe<T> lhs, F &&fn) {
+auto operator>>(Maybe<T> lhs, F &&fn) {
     return lhs ? fn(*lhs) : none;
 }
 
