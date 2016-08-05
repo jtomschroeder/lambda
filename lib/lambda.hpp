@@ -15,4 +15,7 @@
 #include "macros.hpp"
 #include "maybe.hpp"
 
+#include "monad.hpp"
+#include "show.hpp"
+
 #endif // LAMBDA_LAMBDA_H

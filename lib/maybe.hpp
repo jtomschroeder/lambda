@@ -16,21 +16,6 @@ constexpr auto some(T &&value) {
 
 constexpr auto none = std::experimental::nullopt;
 
-template <class T, class F>
-auto operator>>(Maybe<T> lhs, F &&fn) {
-    return lhs ? fn(*lhs) : none;
-}
-
-template <class T>
-std::ostream &operator<<(std::ostream &os, const Maybe<T> m) {
-    if (m) {
-        os << "Some(" << *m << ")";
-    } else {
-        os << "None";
-    }
-    return os;
-}
-
 } /* lambda */
 
 #endif // LAMBDA_MAYBE_H
