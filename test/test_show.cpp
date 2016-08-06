@@ -3,5 +3,6 @@
 #include "lambda.hpp"
 
 using namespace lambda;
+using namespace lambda::$;
 
-TEST(lambda, show) { printer << $.map($.vector(1, 2, 3, 4), plus(1)) << "\n"; }
+TEST(lambda, show) { printer << map(vector(1, 2, 3, 4), plus(1)) << "\n"; }
