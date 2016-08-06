@@ -7,8 +7,8 @@
 namespace lambda {
 
 template <class T, class F>
-std::result_of_t<F(T)> operator>>(const Maybe<T> &m, F &&f) {
-    return m ? f(*m) : none;
+auto operator>>(const Maybe<T> &m, F &&f) {
+    return m ? some(f(*m)) : none;
 }
 
 } /* lambda */
