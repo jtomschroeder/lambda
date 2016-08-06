@@ -18,4 +18,6 @@
 #include "monad.hpp"
 #include "show.hpp"
 
+#include "curried.hpp"
+
 #endif // LAMBDA_LAMBDA_H
