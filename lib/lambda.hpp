@@ -2,22 +2,22 @@
 #ifndef LAMBDA_LAMBDA_H
 #define LAMBDA_LAMBDA_H
 
-#include "type_traits.hpp"
+#include "lambda/type_traits.hpp"
 
-#include "invoke.hpp"
-#include "apply.hpp"
+#include "lambda/invoke.hpp"
+#include "lambda/apply.hpp"
 
-#include "bind.hpp"
-#include "curry.hpp"
-#include "compose.hpp"
-#include "flip.hpp"
+#include "lambda/bind.hpp"
+#include "lambda/curry.hpp"
+#include "lambda/compose.hpp"
+#include "lambda/flip.hpp"
 
-#include "macros.hpp"
-#include "maybe.hpp"
+#include "lambda/macros.hpp"
+#include "lambda/maybe.hpp"
 
-#include "monad.hpp"
-#include "show.hpp"
+#include "lambda/monad.hpp"
+#include "lambda/show.hpp"
 
-#include "curried.hpp"
+#include "lambda/curried.hpp"
 
 #endif // LAMBDA_LAMBDA_H
