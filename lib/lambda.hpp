@@ -17,7 +17,10 @@
 
 #include "lambda/monad.hpp"
 #include "lambda/show.hpp"
+#include "lambda/printer.hpp"
 
 #include "lambda/curried.hpp"
+
+#include "lambda/dollar.hpp"
 
 #endif // LAMBDA_LAMBDA_H

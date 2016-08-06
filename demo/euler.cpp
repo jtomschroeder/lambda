@@ -31,9 +31,6 @@ auto sum(Range &&range) {
     return ranges::accumulate(range, 0);
 }
 
-const auto multipleOf = curry(flip([](auto x, auto y) { return x % y == 0; }));
-const auto even = multipleOf(2);
-
 using namespace ranges;
 
 // Find the sum of all the multiples of 3 or 5 below 1000.
