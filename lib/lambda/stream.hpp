@@ -6,89 +6,72 @@
 namespace lambda {
 namespace streams {
 
-// pub trait Iterator {
-//     type Item;
-//     fn next(&mut self)->Option<Self::Item>;
-//
-// fn map<B, F>(self, f: F) -> Map<Self, F> where Self: Sized, F: FnMut(Self::Item) -> B { ... }
-//
-//
-// pub struct Map<I, F> {
-//     iter: I,
-//     f: F,
-// }
-//
-
-/////////////////////////
-
-template <typename T>
-struct static_const {
-    static constexpr T value{};
-};
-
-/// \ingroup group-utility
-/// \sa `static_const`
-template <typename T>
-constexpr T static_const<T>::value;
-
-#define DEFINE_INLINE_VARIABLE(type, name)                                                         \
-    inline namespace { constexpr auto &name = static_const<type>::value; }
-
-/////////////////////////
-
-struct pipeable_base {};
-
-template <typename T>
-struct is_pipeable : std::is_base_of<pipeable_base, T> {};
-
-struct pipeable : pipeable_base {
+struct Pipeable {
     template <typename Arg, typename Pipe>
     static auto pipe(Arg &&arg, Pipe pipe) {
         return pipe(std::forward<Arg>(arg));
     }
 };
 
+template <typename T>
+struct is_pipeable : std::is_base_of<Pipeable, T> {};
+
+////////////////////
+
+struct Stream {};
+
+template <typename T>
+struct is_stream : std::is_base_of<Stream, T> {};
+
 template <class C>
-class Stream {
+class CollectionStream : public Stream {
     C collection;
     typename C::const_iterator begin, end;
 
 public:
-    Stream(C &&collection)
+    using Type = typename C::value_type;
+
+    CollectionStream(C &&collection)
         : collection(collection), begin(collection.cbegin()), end(collection.cend()) {}
 
-    auto next() { return begin != end ? some(*begin++) : none; }
+    Maybe<Type> next() { return begin != end ? some(*begin++) : none; }
 };
-
-template <class C>
-std::string show(const Stream<C> stream) {
-    return "Stream";
-}
 
 template <class C>
 auto stream(C &&c) {
-    return Stream<C>{std::forward<C>(c)};
+    return CollectionStream<C>{std::forward<C>(c)};
 }
 
+////////////////////
+
+#define REQUIRE_CONCEPT(...) std::enable_if_t<(__VA_ARGS__), int> = 0
+
+template <typename Arg, typename Pipe,
+          REQUIRE_CONCEPT(!is_pipeable<Arg>() && is_stream<Arg>() && is_pipeable<Pipe>())>
+auto operator|(Arg &&arg, Pipe pipe) {
+    return Pipe::pipe(std::forward<Arg>(arg), pipe);
+}
+
+////////////////////
+
 template <class S, class F>
-class MapStream {
+class MapStream : public Stream {
     S stream;
-    F map_fn;
+    F fn;
 
 public:
-    MapStream(S stream, F map_fn) : stream(stream), map_fn(map_fn) {}
+    using Type = typename S::Type;
 
-    auto next() { return stream.next() >> map_fn; }
+    MapStream(S stream, F fn) : stream(stream), fn(fn) {}
+
+    Maybe<Type> next() { return stream.next() >> fn; }
 };
 
-template <class S, class F>
-std::string show(const MapStream<S, F> stream) {
-    return "MapStream";
-}
-
 template <class F>
-struct Map : pipeable {
+class Map : public Pipeable {
     F f;
+
+public:
     Map(F f) : f(f) {}
 
     template <class T>
@@ -97,18 +80,49 @@ struct Map : pipeable {
     }
 };
 
-// DEFINE_INLINE_VARIABLE(Map, map)
-
 template <class F>
 auto map(F &&f) {
     return Map<F>{std::forward<F>(f)};
 }
 
-// Evaluate the pipe with an argument
-template <typename Arg, typename Pipe,
-          std::enable_if_t<!is_pipeable<Arg>() && is_pipeable<Pipe>(), int> = 0>
-auto operator|(Arg &&arg, Pipe pipe) {
-    return Pipe::pipe(std::forward<Arg>(arg), pipe);
+////////////////////
+
+template <class S, class F>
+class FilterStream : public Stream {
+    S stream;
+    F fn;
+
+public:
+    using Type = typename S::Type;
+
+    FilterStream(S stream, F fn) : stream(stream), fn(fn) {}
+
+    Maybe<Type> next() {
+        while (auto s = stream.next()) {
+            if (fn(std::cref(*s))) {
+                return s;
+            }
+        }
+        return none;
+    }
+};
+
+template <class F>
+class Filter : public Pipeable {
+    F f;
+
+public:
+    Filter(F f) : f(f) {}
+
+    template <class T>
+    auto operator()(T value) const {
+        return FilterStream<T, F>{value, f};
+    }
+};
+
+template <class F>
+auto filter(F &&f) {
+    return Filter<F>{std::forward<F>(f)};
 }
 
 } /* streams */
