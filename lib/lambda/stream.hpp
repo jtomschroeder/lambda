@@ -4,6 +4,7 @@
 #include "maybe.hpp"
 
 namespace lambda {
+namespace streams {
 
 // pub trait Iterator {
 //     type Item;
@@ -18,52 +19,97 @@ namespace lambda {
 // }
 //
 
-template <class T>
-class Stream : public std::enable_shared_from_this<Stream<T>> {
-public:
-    using RawStream = std::shared_ptr<Stream>;
+/////////////////////////
 
-    Stream() {}
-
-    virtual Maybe<T> next() = 0;
-
-    template <class F>
-    RawStream map(F &&f);
+template <typename T>
+struct static_const {
+    static constexpr T value{};
 };
 
-template <class T>
-using RawStream = typename Stream<T>::RawStream;
+/// \ingroup group-utility
+/// \sa `static_const`
+template <typename T>
+constexpr T static_const<T>::value;
 
-template <class T, class F>
-class Map : public Stream<T> {
-    RawStream<T> stream;
-    F f;
+#define DEFINE_INLINE_VARIABLE(type, name)                                                         \
+    inline namespace { constexpr auto &name = static_const<type>::value; }
 
-public:
-    Map(RawStream<T> stream, F f) : stream(stream), f(f) {}
+/////////////////////////
 
-    virtual Maybe<T> next() { return stream->next() >> f; }
+struct pipeable_base {};
+
+template <typename T>
+struct is_pipeable : std::is_base_of<pipeable_base, T> {};
+
+struct pipeable : pipeable_base {
+    template <typename Arg, typename Pipe>
+    static auto pipe(Arg &&arg, Pipe pipe) {
+        return pipe(std::forward<Arg>(arg));
+    }
 };
 
-template <class T, class C>
-class IteratorStream : public Stream<T> {
+template <class C>
+class Stream {
+    C collection;
     typename C::const_iterator begin, end;
 
 public:
-    IteratorStream(C &collection) : begin(collection.cbegin()), end(collection.cend()) {}
+    Stream(C &&collection)
+        : collection(collection), begin(collection.cbegin()), end(collection.cend()) {}
 
-    virtual Maybe<T> next() { return begin != end ? some(*begin++) : none; }
+    auto next() { return begin != end ? some(*begin++) : none; }
 };
 
-template <class T, class C>
-static auto from(C &collection) {
-    return RawStream<T>(new IteratorStream<T, C>{collection});
+template <class C>
+std::string show(const Stream<C> stream) {
+    return "Stream";
 }
 
-template <class T>
+template <class C>
+auto stream(C &&c) {
+    return Stream<C>{std::forward<C>(c)};
+}
+
+template <class S, class F>
+class MapStream {
+    S stream;
+    F map_fn;
+
+public:
+    MapStream(S stream, F map_fn) : stream(stream), map_fn(map_fn) {}
+
+    auto next() { return stream.next() >> map_fn; }
+};
+
+template <class S, class F>
+std::string show(const MapStream<S, F> stream) {
+    return "MapStream";
+}
+
 template <class F>
-RawStream<T> Stream<T>::map(F &&f) {
-    return RawStream(new Map<T, F>{Stream<T>::shared_from_this(), f});
+struct Map : pipeable {
+    F f;
+    Map(F f) : f(f) {}
+
+    template <class T>
+    auto operator()(T value) const {
+        return MapStream<T, F>{value, f};
+    }
+};
+
+// DEFINE_INLINE_VARIABLE(Map, map)
+
+template <class F>
+auto map(F &&f) {
+    return Map<F>{std::forward<F>(f)};
 }
 
+// Evaluate the pipe with an argument
+template <typename Arg, typename Pipe,
+          std::enable_if_t<!is_pipeable<Arg>() && is_pipeable<Pipe>(), int> = 0>
+auto operator|(Arg &&arg, Pipe pipe) {
+    return Pipe::pipe(std::forward<Arg>(arg), pipe);
+}
+
+} /* streams */
 } /* lambda */
