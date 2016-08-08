@@ -41,7 +41,9 @@ struct function_traits<R (C::*)(Args...) const> : public function_traits<R(C &, 
 template <class C, class R>
 struct function_traits<R(C::*)> : public function_traits<R(C &)> {};
 
-// functor
+///
+/// function object
+///
 template <class F>
 struct function_traits {
 private:

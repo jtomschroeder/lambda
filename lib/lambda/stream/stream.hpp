@@ -1,8 +1,6 @@
 
 #pragma once
 
-#include "maybe.hpp"
-
 namespace lambda {
 namespace streams {
 
@@ -43,8 +41,6 @@ auto stream(C &&c) {
 }
 
 ////////////////////
-
-#define REQUIRE_CONCEPT(...) std::enable_if_t<(__VA_ARGS__), int> = 0
 
 template <typename Arg, typename Pipe,
           REQUIRE_CONCEPT(!is_pipeable<Arg>() && is_stream<Arg>() && is_pipeable<Pipe>())>

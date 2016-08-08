@@ -2,8 +2,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 include_directories(${GTEST_INCLUDE_DIRS}
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../lib
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../lib/lambda)
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../lib)
 
 set(TESTS ${CMAKE_CURRENT_SOURCE_DIR}/test_bind.cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/test_dollar.cpp

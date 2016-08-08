@@ -1,9 +1,6 @@
 
 #pragma once
 
-#include <type_traits>
-#include "function_traits.hpp"
-
 namespace lambda {
 namespace factory {
 
@@ -19,17 +16,17 @@ constexpr auto array(Ts &&... ts) {
 
 } /* factory */
 
-let id = [](auto &&i) { return i; };
+let id = [](auto &&i) { return std::forward<decltype(i)>(i); };
 
-let gcd = [](auto x, auto y) {
+let gcd = curry([](auto x, auto y) {
     while (y != 0) {
         auto r = x % y;
         x = y;
         y = r;
     }
     return x;
-};
+});
 
-let lcm = [](auto x, auto y) { return (x * y) / gcd(x, y); };
+let lcm = curry([](auto x, auto y) { return (x * y) / gcd(x, y); });
 
 } /* lambda */

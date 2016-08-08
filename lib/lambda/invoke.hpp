@@ -10,6 +10,8 @@ namespace lambda {
 // Invoke the Callable object f with the parameters args.
 //
 
+// Note: since C++17
+
 namespace detail {
 template <class F, class... Args>
 auto INVOKE(F &&f, Args &&... args) -> decltype(std::forward<F>(f)(std::forward<Args>(args)...)) {
