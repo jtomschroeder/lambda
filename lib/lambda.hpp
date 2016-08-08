@@ -23,6 +23,6 @@
 
 #include "lambda/dollar.hpp"
 
-#include "lambda/stream.hpp"
+#include "lambda/stream/mod.hpp"
 
 #endif // LAMBDA_LAMBDA_H
