@@ -3,6 +3,6 @@
 #include "lambda.hpp"
 
 using namespace lambda;
-using namespace lambda::$;
+using namespace lambda::factory;
 
-TEST(lambda, show) { printer << map(vector(1, 2, 3, 4), plus(1)) << "\n"; }
+TEST(lambda, show) { printer << vector(1, 2, 3, 4) << "\n"; }

@@ -96,13 +96,6 @@ PROBLEM(E4) {
     SOLUTION(solution, 906609);
 }
 
-uint64_t gcd(uint64_t x, uint64_t y) {
-    // Euclidean algorithm
-    return (y == 0) ? x : gcd(y, x % y);
-}
-
-uint64_t lcm(uint64_t x, uint64_t y) { return (x * y) / gcd(x, y); }
-
 // What is the smallest positive number that is evenly divisible by all of the
 // numbers from 1 to 20?
 PROBLEM(E5) { SOLUTION(ranges::accumulate(view::closed_ints(1, 20), 1, lcm), 232792560); }
