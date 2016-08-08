@@ -7,6 +7,8 @@
 
 namespace lambda {
 
+struct nope {};
+
 template <typename T>
 struct has_iterator {
     template <typename U>
@@ -18,7 +20,8 @@ struct has_iterator {
     static const bool value = sizeof(test<T>(0)) == 1;
 };
 
-struct nope {};
+template <typename T>
+constexpr bool has_iterator_v = has_iterator<T>::value;
 
 template <typename F, typename... Args>
 struct is_callable {

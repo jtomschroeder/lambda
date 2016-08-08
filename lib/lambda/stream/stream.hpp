@@ -35,7 +35,7 @@ public:
     Maybe<Type> next() { return begin != end ? some(*begin++) : none; }
 };
 
-template <class C>
+template <class C, REQUIRE_CONCEPT(has_iterator_v<C>)>
 auto stream(C &&c) {
     return CollectionStream<C>{std::forward<C>(c)};
 }
