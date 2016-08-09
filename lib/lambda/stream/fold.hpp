@@ -29,5 +29,7 @@ auto fold(I &&initial, F &&f) {
     return Fold<I, F>{std::forward<I>(initial), std::forward<F>(f)};
 }
 
+let sum = fold(0, plus);
+
 } /* streams */
 } /* lambda */

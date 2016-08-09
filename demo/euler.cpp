@@ -98,7 +98,7 @@ PROBLEM(E4) {
 
 // What is the smallest positive number that is evenly divisible by all of the
 // numbers from 1 to 20?
-PROBLEM(E5) { SOLUTION(ranges::accumulate(view::closed_ints(1, 20), 1, lcm), 232792560); }
+PROBLEM(E5) { SOLUTION(ranges::accumulate(view::closed_ints(1ull, 20ull), 1, lcm), 232792560); }
 
 // Find the difference between the sum of the squares of the first one hundred
 // natural numbers and the square of the sum.
