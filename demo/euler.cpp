@@ -26,24 +26,23 @@ std::vector<std::function<void()>> Problem::problems;
 
 /////////////////////////
 
+// Find the sum of all the multiples of 3 or 5 below 1000.
+PROBLEM(E1) {
+    using namespace lambda::streams;
+    const auto solution = ints(0, 1000) | filter(multipleOf(3) || multipleOf(5)) | sum;
+
+    SOLUTION(solution, 233168);
+}
+
 template <typename Range>
 auto sum(Range &&range) {
     return ranges::accumulate(range, 0);
 }
 
-using namespace ranges;
-
-// Find the sum of all the multiples of 3 or 5 below 1000.
-PROBLEM(E1) {
-    const auto solution = sum(view::ints(0, 1000) | view::filter(multipleOf(3) || multipleOf(5)));
-
-    SOLUTION(solution, 233168);
-}
-
 // By considering the terms in the Fibonacci sequence whose values do not exceed
 // four million, find the sum of the even-valued terms.
 PROBLEM(E2) {
-    auto fibonacci = view::generate([] {
+    auto fibonacci = ranges::view::generate([] {
         static uint64_t x = 0, y = 1;
         auto tmp = x;
         x += y;
@@ -52,10 +51,12 @@ PROBLEM(E2) {
     });
 
     const auto solution =
-        sum(fibonacci | view::filter(even) | view::take_while(curry(flip(std::less<>{}), 4e6)));
+        sum(fibonacci | ranges::view::filter(even) | ranges::view::take_while(less(4e6)));
 
     SOLUTION(solution, 4613732);
 }
+
+using namespace ranges;
 
 uint64_t smallest_factor(uint64_t n) {
     auto factors = view::closed_ints(2ull, n) >>= [n](auto i) { return yield_if(n % i == 0, i); };
