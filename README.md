@@ -13,7 +13,7 @@ let even = multipleOf(2);
 
 // ...
 
-using namespace lambda::stream;
+using namespace lambda::streams;
 
 // Find the sum of all the multiples of 3 or 5 below 1000.
 ints(0, 1000) | filter(multipleOf(3) || multipleOf(5)) | sum;
