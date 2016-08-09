@@ -32,7 +32,7 @@ public:
     CollectionStream(C &&collection)
         : collection(collection), begin(collection.cbegin()), end(collection.cend()) {}
 
-    Maybe<Type> next() { return begin != end ? some(*begin++) : none; }
+    Maybe<Type> next() { return begin != end ? some(std::move(*begin++)) : none; }
 };
 
 template <class C, REQUIRE_CONCEPT(has_iterator_v<C>)>

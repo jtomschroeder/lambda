@@ -6,3 +6,4 @@
 #include "stream.hpp"
 #include "map.hpp"
 #include "filter.hpp"
+#include "fold.hpp"

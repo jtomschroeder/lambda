@@ -16,7 +16,7 @@ public:
 
     MapStream(S stream, F fn) : stream(stream), fn(fn) {}
 
-    Maybe<Type> next() { return stream.next() >> fn; }
+    Maybe<Type> next() { return std::move(stream.next()) >> fn; }
 };
 
 template <class F>
@@ -26,9 +26,9 @@ class Map : public Pipeable {
 public:
     Map(F f) : f(f) {}
 
-    template <class T>
-    auto operator()(T value) const {
-        return MapStream<T, F>{value, f};
+    template <class S>
+    auto operator()(S stream) const {
+        return MapStream<S, F>{stream, f};
     }
 };
 
