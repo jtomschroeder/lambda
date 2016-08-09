@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_BIND_H
-#define LAMBDA_BIND_H
+#pragma once
 
 #include "invoke.hpp"
 
@@ -13,5 +12,3 @@ auto bind(Fn fn, Ts &&... ts) {
 }
 
 } /* lambda */
-
-#endif // LAMBDA_BIND_H

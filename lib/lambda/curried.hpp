@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_CURRIED_H
-#define LAMBDA_CURRIED_H
+#pragma once
 
 #include "curry.hpp"
 
@@ -13,5 +12,3 @@ let multipleOf = curry(flip([](auto x, auto y) { return x % y == 0; }));
 let even = multipleOf(2);
 
 } /* lambda */
-
-#endif // LAMBDA_CURRIED_H

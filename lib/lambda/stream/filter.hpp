@@ -34,7 +34,7 @@ public:
     Filter(F f) : f(f) {}
 
     template <class S>
-    auto operator()(S stream) const {
+    auto pipe(S stream) const {
         return FilterStream<S, F>{stream, f};
     }
 };

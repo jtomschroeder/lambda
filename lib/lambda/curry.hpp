@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_CURRY_H
-#define LAMBDA_CURRY_H
+#pragma once
 
 #include "type_traits.hpp"
 
@@ -67,5 +66,3 @@ auto curry(R (C::*fn)(Args...) const) {
 }
 
 } /* lambda */
-
-#endif // LAMBDA_CURRY_H

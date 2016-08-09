@@ -15,7 +15,7 @@ public:
     Fold(I &&initial, F &&f) : initial(initial), f(f) {}
 
     template <class S>
-    auto operator()(S &&stream) const {
+    auto pipe(S &&stream) const {
         auto init = initial;
         while (auto s = std::move(stream.next())) {
             init = f(init, *s);

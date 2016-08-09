@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_TYPE_TRAITS_H
-#define LAMBDA_TYPE_TRAITS_H
+#pragma once
 
 #include <type_traits>
 #include "function_traits.hpp"
@@ -42,5 +41,3 @@ template <typename F, typename... Args>
 constexpr bool is_callable_v = is_callable<F, Args...>::value;
 
 } /* lambda */
-
-#endif // LAMBDA_TYPE_TRAITS_H

@@ -5,9 +5,9 @@ namespace lambda {
 namespace streams {
 
 struct Pipeable {
-    template <typename Arg, typename Pipe>
-    static auto pipe(Arg &&arg, Pipe pipe) {
-        return pipe(std::forward<Arg>(arg));
+    template <typename Arg, typename Pipeable>
+    static auto pipeable(Arg &&arg, Pipeable pipeable) {
+        return pipeable.pipe(std::forward<Arg>(arg));
     }
 };
 
@@ -42,10 +42,10 @@ auto stream(C &&c) {
 
 ////////////////////
 
-template <typename Arg, typename Pipe,
-          REQUIRE_CONCEPT(!is_pipeable<Arg>() && is_stream<Arg>() && is_pipeable<Pipe>())>
-auto operator|(Arg &&arg, Pipe pipe) {
-    return Pipe::pipe(std::forward<Arg>(arg), pipe);
+template <typename Arg, typename Pipeable,
+          REQUIRE_CONCEPT(!is_pipeable<Arg>() && is_stream<Arg>() && is_pipeable<Pipeable>())>
+auto operator|(Arg &&arg, Pipeable pipe) {
+    return Pipeable::pipeable(std::forward<Arg>(arg), pipe);
 }
 
 } /* streams */

@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_MONAD_H
-#define LAMBDA_MONAD_H
+#pragma once
 
 #include "maybe.hpp"
 
@@ -12,5 +11,3 @@ auto operator>>(const Maybe<T> &m, F &&f) {
 }
 
 } /* lambda */
-
-#endif // LAMBDA_MONAD_H

@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_MAYBE_H
-#define LAMBDA_MAYBE_H
+#pragma once
 
 #include <experimental/optional>
 
@@ -17,5 +16,3 @@ constexpr auto some(T &&value) {
 constexpr auto none = std::experimental::nullopt;
 
 } /* lambda */
-
-#endif // LAMBDA_MAYBE_H

@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_INVOKE_H
-#define LAMBDA_INVOKE_H
+#pragma once
 
 #include <type_traits>
 
@@ -47,5 +46,3 @@ auto invoke(F &&f, ArgTypes &&... args) {
 }
 
 } /* lambda */
-
-#endif // LAMBDA_INVOKE_H

@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_APPLY_H
-#define LAMBDA_APPLY_H
+#pragma once
 
 #include "invoke.hpp"
 
@@ -23,5 +22,3 @@ constexpr auto apply(F &&f, Tuple &&t) {
 }
 
 } /* lambda */
-
-#endif // LAMBDA_APPLY_H

@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_COMPOSE_H
-#define LAMBDA_COMPOSE_H
+#pragma once
 
 #include "type_traits.hpp"
 
@@ -12,5 +11,3 @@ auto compose(F f, G g) {
 }
 
 } /* lambda */
-
-#endif // LAMBDA_COMPOSE_H

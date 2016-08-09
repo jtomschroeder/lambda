@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_FUNCTION_TRAITS_H
-#define LAMBDA_FUNCTION_TRAITS_H
+#pragma once
 
 #include <type_traits>
 #include <array>
@@ -71,5 +70,3 @@ template <class F>
 struct function_traits<F &&> : public function_traits<F> {};
 
 } /* lambda */
-
-#endif // LAMBDA_FUNCTION_TRAITS_H

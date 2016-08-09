@@ -1,6 +1,5 @@
 
-#ifndef LAMBDA_FLIP_H
-#define LAMBDA_FLIP_H
+#pragma once
 
 #include <utility>
 
@@ -14,5 +13,3 @@ auto flip(F f) {
 }
 
 } /* lambda */
-
-#endif // LAMBDA_FLIP_H
