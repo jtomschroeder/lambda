@@ -8,10 +8,10 @@
 #include "lambda.hpp"
 using namespace lambda;
 
+using namespace lambda::streams;
+
 // Find the sum of all the multiples of 3 or 5 below 1000.
 PROBLEM(E1) {
-    using namespace lambda::streams;
-
     const auto solution = ints(0, 1000) | filter(multipleOf(3) || multipleOf(5)) | sum;
 
     SOLUTION(solution, 233168);
@@ -20,8 +20,6 @@ PROBLEM(E1) {
 // By considering the terms in the Fibonacci sequence whose values do not exceed
 // four million, find the sum of the even-valued terms.
 PROBLEM(E2) {
-    using namespace lambda::streams;
-
     let fibonacci = generator([] {
         static uint64_t x = 0, y = 1;
         auto tmp = x;
@@ -36,7 +34,7 @@ PROBLEM(E2) {
 }
 
 template <typename Range>
-auto sum(Range &&range) {
+auto rsum(Range &&range) {
     return ranges::accumulate(range, 0);
 }
 
@@ -83,26 +81,25 @@ PROBLEM(E4) {
 
 // What is the smallest positive number that is evenly divisible by all of the
 // numbers from 1 to 20?
-PROBLEM(E5) { SOLUTION(ranges::accumulate(view::closed_ints(1ull, 20ull), 1, lcm), 232792560); }
+PROBLEM(E5) { SOLUTION(closed_ints(1ull, 20ull) | fold(1, lcm), 232792560); }
 
 // Find the difference between the sum of the squares of the first one hundred
 // natural numbers and the square of the sum.
 PROBLEM(E6) {
     const auto n = 100;
-    const auto solution = square(sum(view::closed_ints(1, n))) -
-                          sum(view::closed_ints(1, n) | view::transform(square));
+    const auto solution = square(closed_ints(1, n) | sum) - (closed_ints(1, n) | map(square) | sum);
 
     SOLUTION(solution, 25164150);
 }
 
-const auto prime = [](uint64_t x) {
+let prime = [](uint64_t x) {
     if (x == 2) {
         return true;
     } else if (x < 2 || even(x)) {
         return false;
     } else {
         for (uint64_t i = 3, end = sqrt(x); i <= end; i += 2) {
-            if (multipleOf(i)(x)) {
+            if (multipleOf(i, x)) {
                 return false;
             }
         }

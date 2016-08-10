@@ -13,3 +13,11 @@
 #include "take.hpp"
 
 #include "fold.hpp"
+
+//
+// TODO:
+// - max: (fold?)
+// - drop
+// - list comprehension
+// - stream -> iter(): useable with for-range loop
+//

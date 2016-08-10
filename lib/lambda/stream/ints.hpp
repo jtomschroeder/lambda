@@ -23,6 +23,11 @@ auto ints(I begin, I end) {
     return IntsRangeStream<I>{begin, end};
 }
 
+template <class I>
+auto closed_ints(I begin, I end) {
+    return IntsRangeStream<I>{begin, end + 1};
+}
+
 /////////////////////////
 
 template <class I>

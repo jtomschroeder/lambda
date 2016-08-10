@@ -18,7 +18,7 @@ std::vector<std::function<void()>> Problem::problems;
     Problem CONCAT(P, CONCAT(E, __COUNTER__)){E};                                                  \
     void E()
 #define SOLUTION(X, Y)                                                                             \
-    std::cout << __FUNCTION__ << " == " << Y << " " << (X == Y ? "👍" : "👎") << std::endl;
+    std::cout << __FUNCTION__ << " == " << Y << " " << ((X) == (Y) ? "👍" : "👎") << std::endl;
 
 #define PROBLEM_MAIN()                                                                             \
     int main() {                                                                                   \
