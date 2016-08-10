@@ -22,6 +22,8 @@ std::vector<std::function<void()>> Problem::problems;
 
 #define PROBLEM_MAIN()                                                                             \
     int main() {                                                                                   \
-        ranges::for_each(Problem::problems, [](const auto &p) { p(); });                           \
+        for (auto problem : Problem::problems) {                                                   \
+            problem();                                                                             \
+        }                                                                                          \
         return 0;                                                                                  \
     }

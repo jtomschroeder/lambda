@@ -5,8 +5,6 @@
 
 namespace lambda {
 
-// Note: "nifty counter" or "Schwarz counter" idiom
-
 inline std::string show(std::string s) { return s; }
 inline std::string show(char c) { return std::string(1, c); }
 inline std::string show(int i) { return std::to_string(i); }
