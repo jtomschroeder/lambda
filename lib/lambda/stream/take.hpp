@@ -38,5 +38,44 @@ auto take(I i) {
     return Take<I>{i};
 }
 
+////////////////////
+
+template <class S, class P>
+class TakeWhileStream : public Stream {
+    S stream;
+    P pred;
+
+public:
+    using Type = typename S::Type;
+
+    TakeWhileStream(S stream, P pred) : stream(stream), pred(pred) {}
+
+    Maybe<Type> next() {
+        if (auto s = stream.next()) {
+            return pred(*s) ? s : none;
+        } else {
+            return none;
+        }
+    }
+};
+
+template <class P>
+class TakeWhile : public Pipeable {
+    P pred;
+
+public:
+    TakeWhile(P pred) : pred(pred) {}
+
+    template <class S>
+    auto pipe(S stream) const {
+        return TakeWhileStream<S, P>{stream, pred};
+    }
+};
+
+template <class P>
+auto take_while(P pred) {
+    return TakeWhile<P>{pred};
+}
+
 } /* streams */
 } /* lambda */

@@ -29,4 +29,6 @@ let gcd = curry([](auto x, auto y) {
 
 let lcm = curry([](auto x, auto y) { return (x * y) / gcd(x, y); });
 
+let square = [](auto i) { return i * i; };
+
 } /* lambda */

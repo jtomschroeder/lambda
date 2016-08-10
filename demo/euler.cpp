@@ -11,20 +11,18 @@ using namespace lambda;
 // Find the sum of all the multiples of 3 or 5 below 1000.
 PROBLEM(E1) {
     using namespace lambda::streams;
+
     const auto solution = ints(0, 1000) | filter(multipleOf(3) || multipleOf(5)) | sum;
 
     SOLUTION(solution, 233168);
 }
 
-template <typename Range>
-auto sum(Range &&range) {
-    return ranges::accumulate(range, 0);
-}
-
 // By considering the terms in the Fibonacci sequence whose values do not exceed
 // four million, find the sum of the even-valued terms.
 PROBLEM(E2) {
-    auto fibonacci = ranges::view::generate([] {
+    using namespace lambda::streams;
+
+    let fibonacci = generator([] {
         static uint64_t x = 0, y = 1;
         auto tmp = x;
         x += y;
@@ -32,10 +30,14 @@ PROBLEM(E2) {
         return tmp;
     });
 
-    const auto solution =
-        sum(fibonacci | ranges::view::filter(even) | ranges::view::take_while(less(4e6)));
+    const auto solution = fibonacci | filter(even) | take_while(less(4e6)) | sum;
 
     SOLUTION(solution, 4613732);
+}
+
+template <typename Range>
+auto sum(Range &&range) {
+    return ranges::accumulate(range, 0);
 }
 
 using namespace ranges;
@@ -86,8 +88,6 @@ PROBLEM(E5) { SOLUTION(ranges::accumulate(view::closed_ints(1ull, 20ull), 1, lcm
 // Find the difference between the sum of the squares of the first one hundred
 // natural numbers and the square of the sum.
 PROBLEM(E6) {
-    const auto square = [](auto i) { return i * i; };
-
     const auto n = 100;
     const auto solution = square(sum(view::closed_ints(1, n))) -
                           sum(view::closed_ints(1, n) | view::transform(square));
