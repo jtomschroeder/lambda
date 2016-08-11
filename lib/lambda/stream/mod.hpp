@@ -11,6 +11,7 @@
 #include "map.hpp"
 #include "filter.hpp"
 #include "take.hpp"
+#include "drop.hpp"
 
 #include "fold.hpp"
 

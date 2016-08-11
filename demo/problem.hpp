@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <iostream>
+#include "lambda.hpp"
 
 struct Problem {
     static std::vector<std::function<void()>> problems;
@@ -17,8 +17,15 @@ std::vector<std::function<void()>> Problem::problems;
     void E();                                                                                      \
     Problem CONCAT(P, CONCAT(E, __COUNTER__)){E};                                                  \
     void E()
-#define SOLUTION(X, Y)                                                                             \
-    std::cout << __FUNCTION__ << " == " << Y << " " << ((X) == (Y) ? "👍" : "👎") << std::endl;
+
+namespace problem {
+template <class T, class U>
+void solution(std::string function, const T &t, const U &u) {
+    lambda::printer << function << ": " << t << " == " << u << " " << (t == u ? "👍" : "👎") << "\n";
+}
+}
+
+#define SOLUTION(X, Y) problem::solution(__FUNCTION__, (X), (Y))
 
 #define PROBLEM_MAIN()                                                                             \
     int main() {                                                                                   \

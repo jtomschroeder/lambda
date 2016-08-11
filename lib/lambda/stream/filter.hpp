@@ -18,7 +18,7 @@ public:
 
     Maybe<Type> next() {
         while (auto s = std::move(stream.next())) {
-            if (fn(std::cref(*s))) {
+            if (fn(*s)) {
                 return s;
             }
         }
