@@ -33,5 +33,22 @@ auto stream(C &&c) {
     return CollectionStream<C>{std::forward<C>(c)};
 }
 
+template <class F>
+class FunctionStream : public Stream {
+    F f;
+
+public:
+    using Type = typename std::result_of_t<decltype(std::declval<F>)>::value_type; // Maybe::Type
+
+    FunctionStream(F &&f) : f(f) {}
+
+    Maybe<Type> next() { return f(); }
+};
+
+template <class F> // require is_callable
+auto stream(F &&f) {
+    return FunctionStream<F>{std::forward<F>(f)};
+}
+
 } /* streams */
 } /* lambda */

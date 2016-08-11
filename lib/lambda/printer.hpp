@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <iostream>
+
 #include "show.hpp"
 
 namespace lambda {

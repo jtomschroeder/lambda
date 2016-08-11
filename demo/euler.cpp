@@ -1,13 +1,10 @@
 
-#define RANGES_SUPPRESS_IOTA_WARNING
-#include <range/v3/all.hpp>
-#include <iostream>
+#include <cmath>
 
 #include "problem.hpp"
-
 #include "lambda.hpp"
-using namespace lambda;
 
+using namespace lambda;
 using namespace lambda::streams;
 
 // Find the sum of all the multiples of 3 or 5 below 1000.
@@ -49,18 +46,30 @@ PROBLEM(E3) {
 
 // Find the largest palindrome made from the product of two 3-digit numbers.
 PROBLEM(E4) {
-    using namespace ranges;
+    // list comprehension of product of two 3-digit numbers
+    // auto products = ints(100, 1000) >>=
+    //     [](int x) { return ints(x, 1000) >>= [=](int y) { return yield(x * y); }; };
 
     // list comprehension of product of two 3-digit numbers
-    auto products = view::ints(100, 1000) >>=
-        [](int x) { return view::ints(x, 1000) >>= [=](int y) { return yield(x * y); }; };
+    let products = stream([]() -> Maybe<int> {
+        static int x = 100, y = 100;
+        if (x >= 1000) {
+            return none;
+        }
 
-    const auto palindrome = [](auto n) -> bool {
+        if (y >= 1000) {
+            y = ++x;
+        }
+
+        return x * y++;
+    });
+
+    const auto palindrome = [](auto n) {
         const auto str = std::to_string(n);
 
         auto front = str.begin();
         auto back = str.rbegin();
-        for (; front + (str.size() / 2) != str.end(); front++, back++) {
+        for (; front + (str.size() / 2) != str.end(); ++front, ++back) {
             if (*front != *back) {
                 return false;
             }
@@ -69,7 +78,9 @@ PROBLEM(E4) {
         return true;
     };
 
-    let solution = max(products | view::filter(palindrome));
+    let max = [](auto x, auto y) { return std::max(x, y); };
+
+    let solution = products | filter(palindrome) | fold(0, max);
     SOLUTION(solution, 906609);
 }
 

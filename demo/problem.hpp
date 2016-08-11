@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "lambda.hpp"
 
 struct Problem {
