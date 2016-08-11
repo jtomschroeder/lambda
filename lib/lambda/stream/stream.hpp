@@ -45,7 +45,7 @@ public:
     Maybe<Type> next() { return f(); }
 };
 
-template <class F> // require is_callable
+template <class F, class = std::enable_if_t<is_callable_v<F>>>
 auto stream(F &&f) {
     return FunctionStream<F>{std::forward<F>(f)};
 }
