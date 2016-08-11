@@ -18,7 +18,8 @@
 //
 // TODO:
 // - max: (fold?)
-// - drop
+// - drop (change to 'skip')
 // - list comprehension
 // - stream -> iter(): useable with for-range loop
+// - reversable streams
 //
