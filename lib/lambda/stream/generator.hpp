@@ -11,7 +11,7 @@ class Generator : public Stream {
     G gen;
 
 public:
-    using Type = std::result_of_t<decltype(std::declval<G>)>;
+    using Type = decltype(gen());
 
     explicit Generator(G gen) : gen(std::move(gen)) {}
 
