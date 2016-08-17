@@ -6,26 +6,28 @@
 namespace lambda {
 namespace streams {
 
-template <class I, REQUIRE_CONCEPT(std::is_convertible<I, int>::value)>
+template <class I, class J,
+          REQUIRE_CONCEPT(std::is_convertible<I, int>() && std::is_convertible<J, int>())>
 class IntsRangeStream : public Stream {
-    I begin, end;
+    I begin;
+    J end;
 
 public:
-    using Type = I;
+    using Type = std::common_type_t<I, J>;
 
-    IntsRangeStream(I begin, I end) : begin(begin), end(end) {}
+    IntsRangeStream(I begin, J end) : begin(begin), end(end) {}
 
     Maybe<Type> next() { return begin < end ? some(begin++) : none; }
 };
 
-template <class I>
-auto ints(I begin, I end) {
-    return IntsRangeStream<I>{begin, end};
+template <class I, class J>
+auto ints(I begin, J end) {
+    return IntsRangeStream<I, J>{begin, end};
 }
 
-template <class I>
-auto closed_ints(I begin, I end) {
-    return IntsRangeStream<I>{begin, end + 1};
+template <class I, class J>
+auto closed_ints(I begin, J end) {
+    return IntsRangeStream<I, J>{begin, end + 1};
 }
 
 /////////////////////////
