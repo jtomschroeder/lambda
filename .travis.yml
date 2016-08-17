@@ -1,37 +1,35 @@
 
+#
 # travis-ci configuration
+# - reference: https://github.com/boostorg/hana/blob/master/.travis.yml
+#
 
 language: cpp
 matrix:
   include:
-    - env: GCC_VERSION=5 BUILD_TYPE=Release
-      os: linux
-      addons: &gcc5
-        apt:
-          packages:
-            - g++-5
-          sources:
-            - ubuntu-toolchain-r-test
+    - os: linux
+      env: LLVM_VERSION=3.8.0 BUILD_TYPE=Release
+      compiler: clang
 
 # Install dependencies
 before_install:
+  # Install CMake
+  - |
+    CMAKE_URL="http://www.cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz"
+    mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+    export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+
   - export CHECKOUT_PATH=`pwd`;
 
-  - export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"
-
-  - which $CXX
   - which $CC
+  - which $CXX
   - $CXX --version
 
 install:
   - cd $CHECKOUT_PATH
 
-  - export CXX_FLAGS=""
-  - export CXX_LINKER_FLAGS=""
-  - if [ -z "$BUILD_TYPE" ]; then export BUILD_TYPE=Release; fi
-
   - mkdir -p build && cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_CXX_FLAGS="${CXX_FLAGS}" -DCMAKE_EXE_LINKER_FLAGS="${CXX_LINKER_FLAGS}"
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
 script:
   - make verify
