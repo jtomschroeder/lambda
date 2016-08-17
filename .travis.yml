@@ -4,16 +4,30 @@
 # - reference: https://github.com/boostorg/hana/blob/master/.travis.yml
 #
 
-language: cpp
+language: c++
+sudo: false
+
+env:
+  matrix: # Workaround for https://github.com/travis-ci/travis-ci/issues/4681
+    - TRAVIS_EMPTY_JOB_WORKAROUND=true
+
+addons:
+  apt:
+    packages:
+      - g++-6
+    sources: &sources
+      - ubuntu-toolchain-r-test
+
 matrix:
+  exclude:
+    - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
+
   include:
     - os: linux
-      env: LLVM_VERSION=3.8.0 BUILD_TYPE=Release
-      compiler: clang
+      env: COMPILER=g++-6
+      compiler: gcc
 
-# Install dependencies
 before_install:
-  # Install CMake
   - |
     curl -sSL https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz | sudo tar -xzC /opt
     export PATH=/opt/cmake-3.5.2-Linux-x86_64/bin:${PATH}
