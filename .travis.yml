@@ -28,7 +28,7 @@ matrix:
       compiler: gcc
 
 before_install:
-  - curl -sSL https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz | sudo tar -xzC /opt
+  - curl -sSL https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz | tar -xzC /opt
   - export PATH=/opt/cmake-3.5.2-Linux-x86_64/bin:${PATH}
   - which cmake
   - cmake --version
