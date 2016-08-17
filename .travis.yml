@@ -30,14 +30,11 @@ matrix:
 before_install:
   - export CHECKOUT_PATH=${PWD};
 
-  - cmake --version
   - mkdir -p cmake && cd cmake
   - curl -sSL https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz | tar -xzC .
   - export PATH=${PWD}/cmake-3.5.2-Linux-x86_64/bin:${PATH}
-  - cmake --version
 
   - export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"
-  - $CXX --version
 
 install:
   - cd $CHECKOUT_PATH
@@ -47,7 +44,6 @@ install:
 
 script:
   - make verify
-  - make demo
   - make perf
 
 notifications:

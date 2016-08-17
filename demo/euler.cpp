@@ -116,7 +116,6 @@ let prime = [](auto x) {
         }
     }
     return true;
-
 };
 
 // What is the 10,001st prime number?
