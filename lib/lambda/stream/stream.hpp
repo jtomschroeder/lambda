@@ -38,7 +38,7 @@ class FunctionStream : public Stream {
     F f;
 
 public:
-    using Type = typename std::result_of_t<decltype(std::declval<F>)>::value_type; // Maybe::Type
+    using Type = typename decltype(f())::value_type; // Maybe::Type
 
     explicit FunctionStream(F &&f) : f(f) {}
 
