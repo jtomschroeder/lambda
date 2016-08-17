@@ -3,6 +3,7 @@
 
 #include "stream.hpp"
 #include <mutex>
+#include <memory>
 
 namespace lambda {
 namespace streams {

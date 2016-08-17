@@ -47,6 +47,8 @@ install:
 
 script:
   - make verify
+  - make demo
+  - make perf
 
 notifications:
   email: false
