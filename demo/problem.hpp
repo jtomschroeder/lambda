@@ -7,7 +7,7 @@
 
 struct Problem {
     static std::vector<std::function<void()>> problems;
-    Problem(std::function<void()> p) { problems.push_back(p); }
+    explicit Problem(std::function<void()> p) { problems.push_back(p); }
 };
 
 std::vector<std::function<void()>> Problem::problems;

@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "stream.hpp"
+#include "lambda.hpp"
 
 namespace lambda {
 namespace streams {

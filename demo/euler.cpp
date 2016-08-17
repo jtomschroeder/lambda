@@ -103,17 +103,20 @@ PROBLEM(E6) {
 let prime = [](auto x) {
     if (x == 2) {
         return true;
-    } else if (x < 2 || even(x)) {
-        return false;
-    } else {
-        using I = std::remove_reference_t<std::remove_const_t<decltype(x)>>;
-        for (I i = 3, end = sqrt(x); i <= end; i += 2) {
-            if (multipleOf(i, x)) {
-                return false;
-            }
-        }
-        return true;
     }
+
+    if (x < 2 || even(x)) {
+        return false;
+    }
+
+    using I = std::remove_reference_t<std::remove_const_t<decltype(x)>>;
+    for (I i = 3, end = sqrt(x); i <= end; i += 2) {
+        if (multipleOf(i, x)) {
+            return false;
+        }
+    }
+    return true;
+
 };
 
 // What is the 10,001st prime number?

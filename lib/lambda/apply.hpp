@@ -10,7 +10,7 @@ namespace lambda {
 
 namespace detail {
 template <class F, class Tuple, std::size_t... I>
-constexpr auto apply(F &&f, Tuple &&t, std::index_sequence<I...>) {
+constexpr auto apply(F &&f, Tuple &&t, std::index_sequence<I...> /*unused*/) {
     return invoke(std::forward<F>(f), std::get<I>(std::forward<Tuple>(t))...);
 }
 }

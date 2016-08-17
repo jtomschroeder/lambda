@@ -14,7 +14,7 @@ public:
         return p;
     }
 
-    Printer() {}
+    Printer() = default;
 
     Printer &operator<<(std::string s) {
         std::cout << s;

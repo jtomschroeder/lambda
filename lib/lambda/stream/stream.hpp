@@ -22,7 +22,7 @@ class CollectionStream : public Stream {
 public:
     using Type = typename C::value_type;
 
-    CollectionStream(C &&collection)
+    explicit CollectionStream(C &&collection)
         : collection(collection), begin(collection.cbegin()), end(collection.cend()) {}
 
     Maybe<Type> next() { return begin != end ? some(std::move(*begin++)) : none; }
@@ -40,7 +40,7 @@ class FunctionStream : public Stream {
 public:
     using Type = typename std::result_of_t<decltype(std::declval<F>)>::value_type; // Maybe::Type
 
-    FunctionStream(F &&f) : f(f) {}
+    explicit FunctionStream(F &&f) : f(f) {}
 
     Maybe<Type> next() { return f(); }
 };

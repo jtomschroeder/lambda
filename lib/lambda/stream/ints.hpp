@@ -37,7 +37,7 @@ class IntsStream : public Stream {
 public:
     using Type = I;
 
-    IntsStream(I begin) : begin(begin) {}
+    explicit IntsStream(I begin) : begin(begin) {}
 
     Maybe<Type> next() { return some(begin++); }
 };

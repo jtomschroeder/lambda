@@ -14,7 +14,7 @@ class MapStream : public Stream {
 public:
     using Type = typename S::Type;
 
-    MapStream(S stream, F fn) : stream(stream), fn(fn) {}
+    MapStream(S stream, F fn) : stream(std::move(stream)), fn(fn) {}
 
     Maybe<Type> next() { return std::move(stream.next()) >> fn; }
 };
@@ -24,7 +24,7 @@ class Map : public Pipeable {
     F f;
 
 public:
-    Map(F f) : f(f) {}
+    explicit Map(F f) : f(f) {}
 
     template <class S>
     auto pipe(S stream) const {

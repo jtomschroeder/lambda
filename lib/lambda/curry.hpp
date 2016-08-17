@@ -3,8 +3,8 @@
 
 #include "type_traits.hpp"
 
-#include <tuple>
 #include <functional>
+#include <tuple>
 
 namespace lambda {
 
@@ -25,12 +25,12 @@ private:
     }
 
     template <std::size_t... Ns, typename... Ts>
-    auto call(std::index_sequence<Ns...>, Ts &&... ts) const {
+    auto call(std::index_sequence<Ns...> /*unused*/, Ts &&... ts) const {
         return dispatch(std::get<Ns>(args)..., std::forward<Ts>(ts)...);
     }
 
 public:
-    Curried(F f, BoundArgs &&... args) : f(f), args(std::forward<BoundArgs>(args)...) {}
+    explicit Curried(F f, BoundArgs &&... args) : f(std::move(f)), args(std::forward<BoundArgs>(args)...) {}
 
     template <typename... Ts>
     auto operator()(Ts &&... ts) const {

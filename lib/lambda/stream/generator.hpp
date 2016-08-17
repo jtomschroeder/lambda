@@ -13,7 +13,7 @@ class Generator : public Stream {
 public:
     using Type = std::result_of_t<decltype(std::declval<G>)>;
 
-    Generator(G gen) : gen(gen) {}
+    explicit Generator(G gen) : gen(std::move(gen)) {}
 
     Maybe<Type> next() { return some(gen()); }
 };

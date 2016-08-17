@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include <type_traits>
 #include "function_traits.hpp"
+#include <type_traits>
 
 namespace lambda {
 
@@ -16,7 +16,7 @@ struct has_iterator {
     template <typename U>
     static long test(U *x);
 
-    static const bool value = sizeof(test<T>(0)) == 1;
+    static const bool value = sizeof(test<T>(nullptr)) == 1;
 };
 
 template <typename T>

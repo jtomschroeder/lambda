@@ -16,7 +16,7 @@
 #include "fold.hpp"
 
 //
-// TODO:
+// TODO(jtomschroeder): 
 // - max: (fold?)
 // - drop (change to 'skip')
 // - list comprehension

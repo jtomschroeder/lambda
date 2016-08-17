@@ -10,8 +10,8 @@ constexpr std::vector<std::common_type_t<Ts...>> vector(Ts &&... ts) {
 }
 
 template <class... Ts>
-constexpr auto array(Ts &&... ts) {
-    return std::array<std::common_type_t<Ts...>, sizeof...(ts)>{std::forward<Ts>(ts)...};
+constexpr auto array(Ts &&... ts) -> std::array<std::common_type_t<Ts...>, sizeof...(ts)> {
+    return {std::forward<Ts>(ts)...};
 }
 
 } /* factory */

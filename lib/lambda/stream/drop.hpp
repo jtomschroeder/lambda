@@ -16,7 +16,7 @@ class DropStream : public Stream {
 public:
     using Type = typename S::Type;
 
-    DropStream(S stream, I num) : stream(stream), num(num), flag(new std::once_flag) {}
+    DropStream(S stream, I num) : stream(std::move(stream)), num(num), flag(new std::once_flag) {}
 
     Maybe<Type> next() {
         std::call_once(*flag, [&]() {
@@ -36,7 +36,7 @@ class Drop : public Pipeable {
     const I num;
 
 public:
-    Drop(I num) : num(num) {}
+    explicit Drop(I num) : num(num) {}
 
     template <class S>
     auto pipe(S stream) const {

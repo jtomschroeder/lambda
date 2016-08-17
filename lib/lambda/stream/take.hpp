@@ -25,7 +25,7 @@ class Take : public Pipeable {
     const I num;
 
 public:
-    Take(I num) : num(num) {}
+    explicit Take(I num) : num(num) {}
 
     template <class S>
     auto pipe(S stream) const {
@@ -48,14 +48,14 @@ class TakeWhileStream : public Stream {
 public:
     using Type = typename S::Type;
 
-    TakeWhileStream(S stream, P pred) : stream(stream), pred(pred) {}
+    TakeWhileStream(S stream, P pred) : stream(std::move(stream)), pred(std::move(pred)) {}
 
     Maybe<Type> next() {
         if (auto s = stream.next()) {
             return pred(*s) ? s : none;
-        } else {
+        } 
             return none;
-        }
+        
     }
 };
 
@@ -64,7 +64,7 @@ class TakeWhile : public Pipeable {
     P pred;
 
 public:
-    TakeWhile(P pred) : pred(pred) {}
+    explicit TakeWhile(P pred) : pred(std::move(pred)) {}
 
     template <class S>
     auto pipe(S stream) const {
