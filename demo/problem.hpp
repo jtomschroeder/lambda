@@ -23,7 +23,7 @@ std::vector<std::function<void()>> Problem::problems;
 namespace problem {
 template <class T, class U>
 void solution(std::string function, const T &t, const U &u) {
-    lambda::printer << function << ": " << t << " == " << u << " " << (t == u ? "👍" : "👎") << "\n";
+    lambda::display << function << ": " << t << " == " << u << " " << (t == u ? "👍" : "👎") << "\n";
 }
 }
 

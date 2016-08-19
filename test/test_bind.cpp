@@ -6,7 +6,7 @@
 
 namespace lmd = lambda;
 
-auto add = [](auto x, auto y) { return x + y; };
+let add = [](auto x, auto y) { return x + y; };
 
 TEST(lambda, bind) {
     ASSERT_EQ(lmd::bind(add)(1, 2), 3);

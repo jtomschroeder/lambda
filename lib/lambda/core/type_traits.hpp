@@ -6,7 +6,9 @@
 
 namespace lambda {
 
+namespace detail {
 struct nope {};
+}
 
 template <typename T>
 struct has_iterator {
@@ -28,16 +30,20 @@ private:
     template <typename G, typename... Qs>
     static auto check(G &&g, Qs &&... qs) -> decltype(g(qs...));
 
-    static nope check(...);
+    static detail::nope check(...);
 
 public:
-    static constexpr bool value =
-        !std::is_same<nope, decltype(check(std::declval<F>(), std::declval<Args>()...))>::value;
-
     using type = decltype(check(std::declval<F>(), std::declval<Args>()...));
+
+    static constexpr bool value =
+        !std::is_same<detail::nope,
+                      decltype(check(std::declval<F>(), std::declval<Args>()...))>::value;
 };
 
 template <typename F, typename... Args>
 constexpr bool is_callable_v = is_callable<F, Args...>::value;
+
+template <typename F, typename... Args>
+using is_callable_t = typename is_callable<F, Args...>::type;
 
 } /* lambda */

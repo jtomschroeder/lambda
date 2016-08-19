@@ -5,10 +5,6 @@
 
 namespace lambda {
 
-//
-// Invoke the Callable object f with the parameters args.
-//
-
 // Note: since C++17
 
 namespace detail {
