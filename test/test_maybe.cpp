@@ -13,7 +13,7 @@ TEST(lambda, maybe) {
 
     let n = num >> id_m >> id_s >> ([](auto s) { return s + "!"; });
 
-    printer << n << 1 << "\n";
+    display << n << 1 << "\n";
 
     ASSERT_EQ("1024!", *n);
 }

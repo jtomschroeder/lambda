@@ -17,7 +17,9 @@ struct Thing {
     auto fn(int x, int y, int z) { return x + y + z; }
 
     auto cfn(int x, int y, int z) const { return x + y + z; }
-} static thing;
+};
+
+static Thing thing;
 
 TEST(lambda, curry_mem_fn) {
     auto curried = curry(&Thing::fn);

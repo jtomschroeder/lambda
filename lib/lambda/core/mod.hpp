@@ -3,20 +3,20 @@
 
 #include "type_traits.hpp"
 
-#include "invoke.hpp"
 #include "apply.hpp"
+#include "invoke.hpp"
 
 #include "bind.hpp"
-#include "curry.hpp"
 #include "compose.hpp"
+#include "curry.hpp"
 #include "flip.hpp"
 
 #include "macros.hpp"
 #include "maybe.hpp"
 
+#include "display.hpp"
 #include "monad.hpp"
 #include "show.hpp"
-#include "printer.hpp"
 
 #include "curried.hpp"
 

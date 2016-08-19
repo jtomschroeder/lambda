@@ -115,6 +115,7 @@ let prime = [](auto x) {
             return false;
         }
     }
+
     return true;
 };
 

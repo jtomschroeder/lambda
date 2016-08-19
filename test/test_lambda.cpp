@@ -18,11 +18,9 @@ TEST(lambda, compose) {
 }
 
 TEST(lambda, function_traits) {
-    using std::is_same;
-
     using trait = lmd::function_traits<decltype(mul)>;
     static_assert(trait::arity == 3, "");
-    static_assert(is_same<trait::return_t, int>::value, "");
-    static_assert(is_same<trait::argument_t<0>, int>::value, "");
-    static_assert(is_same<trait::argument_t<1>, int>::value, "");
+    static_assert(std::is_same<trait::return_t, int>::value, "");
+    static_assert(std::is_same<trait::argument_t<0>, int>::value, "");
+    static_assert(std::is_same<trait::argument_t<1>, int>::value, "");
 }

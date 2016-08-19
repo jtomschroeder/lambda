@@ -5,4 +5,4 @@
 using namespace lambda;
 using namespace lambda::factory;
 
-TEST(lambda, show) { printer << vector(1, 2, 3, 4) << "\n"; }
+TEST(lambda, show) { display << vector(1, 2, 3, 4) << "\n"; }
