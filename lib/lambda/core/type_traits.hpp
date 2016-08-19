@@ -12,7 +12,7 @@ struct nope {};
 
 //
 // iterator has T.begin() and T.end()
-// TODO! T::value_type, T++
+// TODO! T::value_type, T.begin()++
 //
 template <typename T>
 struct is_iterator {

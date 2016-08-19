@@ -1,8 +1,10 @@
 
 #pragma once
 
-#include "maybe.hpp"
 #include <string>
+#include <vector>
+
+#include "maybe.hpp"
 
 namespace lambda {
 
