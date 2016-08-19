@@ -10,19 +10,22 @@ namespace detail {
 struct nope {};
 }
 
+// iterator has begin(T) and end(T)
 template <typename T>
-struct has_iterator {
-    template <typename U>
-    static char test(typename U::iterator *x);
+struct is_iterator {
+private:
+    template <typename G>
+    static auto check(G &&g) -> std::pair<decltype(begin(g)), decltype(end(g))>;
 
-    template <typename U>
-    static long test(U *x);
+    static detail::nope check(...);
 
-    static const bool value = sizeof(test<T>(nullptr)) == 1;
+public:
+    static constexpr bool value =
+        !std::is_same<detail::nope, decltype(check(std::declval<T>()))>::value;
 };
 
 template <typename T>
-constexpr bool has_iterator_v = has_iterator<T>::value;
+constexpr bool is_iterator_v = is_iterator<T>::value;
 
 template <typename F, typename... Args>
 struct is_callable {

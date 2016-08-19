@@ -14,23 +14,24 @@ struct Stream {
     Maybe<Type> next();
 };
 
-template <class C>
-class CollectionStream : public Stream {
-    C collection;
-    typename C::const_iterator begin, end;
+template <class R>
+class Range : public Stream {
+    R range;
+
+    decltype(begin(range)) begin_;
+    decltype(end(range)) end_;
 
 public:
-    using Type = typename C::value_type;
+    using Type = typename R::value_type;
 
-    explicit CollectionStream(C &&collection)
-        : collection(collection), begin(collection.cbegin()), end(collection.cend()) {}
+    explicit Range(R &&range) : range(range), begin_(begin(range)), end_(end(range)) {}
 
-    Maybe<Type> next() { return begin != end ? some(std::move(*begin++)) : none; }
+    Maybe<Type> next() { return begin_ != end_ ? some(std::move(*begin_++)) : none; }
 };
 
-template <class C, REQUIRE_CONCEPT(has_iterator_v<C>)>
-auto stream(C &&c) {
-    return CollectionStream<C>{std::forward<C>(c)};
+template <class R, REQUIRE_CONCEPT(is_iterator_v<R>)>
+auto stream(R &&c) {
+    return Range<R>{std::forward<R>(c)};
 }
 
 template <class F>
@@ -45,7 +46,7 @@ public:
     Maybe<Type> next() { return f(); }
 };
 
-template <class F, class = std::enable_if_t<is_callable_v<F>>>
+template <class F, REQUIRE_CONCEPT(is_callable_v<F>)>
 auto stream(F &&f) {
     return FunctionStream<F>{std::forward<F>(f)};
 }
