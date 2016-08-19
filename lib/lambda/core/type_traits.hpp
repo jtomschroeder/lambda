@@ -10,12 +10,15 @@ namespace detail {
 struct nope {};
 }
 
-// iterator has begin(T) and end(T)
+//
+// iterator has T.begin() and T.end()
+// TODO! T::value_type, T++
+//
 template <typename T>
 struct is_iterator {
 private:
     template <typename G>
-    static auto check(G &&g) -> std::pair<decltype(begin(g)), decltype(end(g))>;
+    static auto check(G &&g) -> std::pair<decltype(g.begin()), decltype(g.end())>;
 
     static detail::nope check(...);
 

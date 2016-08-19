@@ -18,20 +18,20 @@ template <class R>
 class Range : public Stream {
     R range;
 
-    decltype(begin(range)) begin_;
-    decltype(end(range)) end_;
+    decltype(range.begin()) begin_;
+    decltype(range.end()) end_;
 
 public:
     using Type = typename R::value_type;
 
-    explicit Range(R &&range) : range(range), begin_(begin(range)), end_(end(range)) {}
+    explicit Range(R range) : range(range), begin_(range.begin()), end_(range.end()) {}
 
     Maybe<Type> next() { return begin_ != end_ ? some(std::move(*begin_++)) : none; }
 };
 
 template <class R, REQUIRE_CONCEPT(is_iterator_v<R>)>
-auto stream(R &&c) {
-    return Range<R>{std::forward<R>(c)};
+auto stream(R range) {
+    return Range<R>{std::move(range)};
 }
 
 template <class F>
