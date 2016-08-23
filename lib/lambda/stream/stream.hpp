@@ -18,13 +18,13 @@ template <class R>
 class Range : public Stream {
     R range;
 
-    decltype(range.begin()) begin_;
-    decltype(range.end()) end_;
+    decltype(begin(range)) begin_;
+    decltype(end(range)) end_;
 
 public:
     using Type = typename R::value_type;
 
-    explicit Range(R range) : range(range), begin_(range.begin()), end_(range.end()) {}
+    explicit Range(R &&range) : range(range), begin_(begin(range)), end_(end(range)) {}
 
     Maybe<Type> next() { return begin_ != end_ ? some(std::move(*begin_++)) : none; }
 };

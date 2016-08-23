@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "maybe.hpp"
@@ -31,6 +32,31 @@ std::string show(const std::vector<T> vec) {
         }
     }
     os += "]";
+    return os;
+}
+
+// TODO! tuple
+// TODO! map
+
+template <class K, class V>
+std::string show(const std::pair<K, V> &pair) {
+    return show(pair.first) + " +> " + show(pair.second);
+}
+
+template <class K, class V>
+std::string show(const std::unordered_map<K, V> &map) {
+    std::string os = "{ ";
+
+    size_t count = 0;
+    for (auto it = map.begin(), end = map.end(); it != end; ++it, ++count) {
+        os += show(*it);
+
+        if (count + 1 != map.size()) {
+            os += ", ";
+        }
+    }
+
+    os += " }";
     return os;
 }
 
