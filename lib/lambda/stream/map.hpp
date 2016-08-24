@@ -12,11 +12,11 @@ class MapStream : public Stream {
     F fn;
 
 public:
-    using Type = typename S::Type;
+    using Type = decltype(fn(std::declval<typename S::Type>()));
 
     MapStream(S stream, F fn) : stream(std::move(stream)), fn(fn) {}
 
-    Maybe<Type> next() { return std::move(stream.next()) >> fn; }
+    auto next() { return std::move(stream.next()) >> fn; }
 };
 
 template <class F>

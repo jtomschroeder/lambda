@@ -47,3 +47,11 @@ TEST(lambda, take_ints) {
 TEST(lambda, collect) {
     ASSERT_EQ(vector(0, 2, 4, 6, 8), ints(0) | map(multiplies(2)) | take(5) | collect());
 }
+
+let to_string = [](auto i) { return std::to_string(i); };
+
+TEST(lambda, CanMapToNewType) {
+    using namespace std::string_literals;
+
+    ASSERT_EQ(vector("1"s, "2", "3"), stream(vector(1, 2, 3)) | map(to_string) | collect());
+}
