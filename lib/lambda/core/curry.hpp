@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "macros.hpp"
 #include "type_traits.hpp"
 
 #include <functional>
@@ -14,12 +15,12 @@ private:
     F f;
     std::tuple<typename std::remove_reference<BoundArgs>::type...> args;
 
-    template <typename... Ts, class = std::enable_if_t<is_callable_v<F, Ts...>>>
-    auto dispatch(Ts &&... ts) const -> std::result_of_t<F(Ts...)> {
+    template <typename... Ts, REQUIRE_CONCEPT(is_callable_v<F, Ts...>)>
+    auto dispatch(Ts &&... ts) const {
         return f(std::forward<Ts>(ts)...);
     }
 
-    template <typename... Ts, class = std::enable_if_t<!is_callable_v<F, Ts...>>>
+    template <typename... Ts, REQUIRE_CONCEPT(!is_callable_v<F, Ts...>)>
     auto dispatch(Ts &&... ts) const {
         return Curried<F, Ts...>(f, std::forward<Ts>(ts)...);
     }
@@ -30,7 +31,8 @@ private:
     }
 
 public:
-    explicit Curried(F f, BoundArgs &&... args) : f(std::move(f)), args(std::forward<BoundArgs>(args)...) {}
+    explicit Curried(F f, BoundArgs &&... args)
+        : f(std::move(f)), args(std::forward<BoundArgs>(args)...) {}
 
     template <typename... Ts>
     auto operator()(Ts &&... ts) const {
@@ -38,7 +40,7 @@ public:
     }
 
     template <typename G>
-    auto operator||(G g) {
+    auto operator||(G g) const {
         return [this, g](auto &&... ps) {
             return this->operator()(std::forward<decltype(ps)>(ps)...) ||
                    g(std::forward<decltype(ps)>(ps)...);
@@ -46,9 +48,8 @@ public:
     }
 };
 
-template <typename F, typename... Ts,
-          class = std::enable_if_t<!std::is_member_function_pointer<F>::value>,
-          class = std::enable_if_t<!std::is_member_object_pointer<F>::value>>
+template <typename F, typename... Ts, REQUIRE_CONCEPT(!std::is_member_function_pointer<F>() &&
+                                                      !std::is_member_object_pointer<F>())>
 auto curry(F &&f, Ts &&... ts) {
     return Curried<F, Ts...>(f, std::forward<Ts>(ts)...);
 }

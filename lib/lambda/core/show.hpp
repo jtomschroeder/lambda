@@ -12,7 +12,7 @@ namespace lambda {
 inline std::string show(std::string s) { return s; }
 inline std::string show(char c) { return std::string(1, c); }
 
-template <class I, REQUIRE_CONCEPT(std::is_convertible<I, int>::value)>
+template <class I, REQUIRE_CONCEPT(std::is_convertible<I, int>())>
 std::string show(I i) {
     return std::to_string(i);
 }
