@@ -8,12 +8,13 @@
 #include "pipe.hpp"
 #include "stream.hpp"
 
-#include "collect.hpp"
+#include "chain.hpp"
 #include "drop.hpp"
 #include "filter.hpp"
 #include "map.hpp"
 #include "take.hpp"
 
+#include "collect.hpp"
 #include "fold.hpp"
 
 //
