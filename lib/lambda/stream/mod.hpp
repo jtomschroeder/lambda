@@ -8,6 +8,7 @@
 #include "pipe.hpp"
 #include "stream.hpp"
 
+#include "collect.hpp"
 #include "drop.hpp"
 #include "filter.hpp"
 #include "map.hpp"

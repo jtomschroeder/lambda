@@ -43,3 +43,7 @@ TEST(lambda, take_ints) {
 
     ASSERT_EQ(none, s.next());
 }
+
+TEST(lambda, collect) {
+    ASSERT_EQ(vector(0, 2, 4, 6, 8), ints(0) | map(multiplies(2)) | take(5) | collect());
+}
