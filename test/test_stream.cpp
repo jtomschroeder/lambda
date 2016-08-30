@@ -1,6 +1,6 @@
 
 #include "gmock/gmock.h"
-#include "lambda.hpp"
+#include "lambda/stream.hpp"
 
 using namespace lambda;
 using namespace lambda::factory;
