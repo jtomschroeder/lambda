@@ -17,13 +17,15 @@ std::string show(I i) {
     return std::to_string(i);
 }
 
+inline std::string show(const None &) { return "None"; }
+
 template <class T>
-std::string show(const Maybe<T> maybe) {
+std::string show(const Maybe<T> &maybe) {
     return maybe ? "Some(" + show(*maybe) + ")" : "None";
 }
 
 template <class T>
-std::string show(const std::vector<T> vec) {
+std::string show(const std::vector<T> &vec) {
     std::string os = "[";
     for (const auto &i : vec) {
         os += show(i);

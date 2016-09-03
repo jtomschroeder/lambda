@@ -41,8 +41,8 @@ install:
 
 script:
   - ./build.sh verify
-  - ./build.sh perf
-  - ./build.sh demo
+  # - ./build.sh perf
+  # - ./build.sh demo
 
 notifications:
   email: false
