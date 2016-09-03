@@ -5,18 +5,6 @@
 
 namespace lambda {
 
-template <class T>
-struct Some {
-    Some(T value) : value(new T{std::move(value)}) {}
-
-    constexpr bool operator==(const Some<T> &s) const {
-        assert(value && s.value);
-        return *value == *s.value;
-    }
-
-    std::shared_ptr<T> value;
-};
-
 struct None {
     constexpr bool operator==(const None &) const { return true; }
 
@@ -29,24 +17,28 @@ struct None {
 
 template <typename T>
 struct Maybe {
-    using S = Some<T>;
+    using Some = std::shared_ptr<T>;
 
-    Maybe() : value(None{}) {}
-    Maybe(None none) : value(none) {}
+    Maybe() : var(None{}) {}
+    Maybe(None none) : var(none) {}
 
-    Maybe(S some) : value(some) {}
+    Maybe(T some) : var(Some(new T{std::move(some)})) {}
 
-    template <class U>
-    Maybe(U val) : Maybe(S{val}) {}
+    constexpr const T &value() const & { return *var.template target<Some>()->get(); }
 
-    constexpr const T &operator*() const & { return *value.template target<S>()->value; }
+    constexpr const T &operator*() const & { return *var.template target<Some>()->get(); }
 
-    constexpr explicit operator bool() const { return value.which() == 0u; }
+    constexpr bool is_some() const { return var.which() == 0u; }
+    constexpr bool is_none() const { return var.which() == 1u; }
 
-    constexpr bool operator==(const Maybe<T> &m) const { return value == m.value; }
+    constexpr explicit operator bool() const { return is_some(); }
+
+    constexpr bool operator==(const Maybe<T> &m) const {
+        return var.which() == m.var.which() && (is_none() || value() == m.value());
+    }
 
 private:
-    variant<S, None> value;
+    variant<Some, None> var;
 };
 
 template <class T>
