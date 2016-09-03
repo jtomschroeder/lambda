@@ -1,6 +1,8 @@
 
-#include "benchmark/benchmark.h"
-#include "lambda.hpp"
+#include <benchmark/benchmark.h>
+
+#include <lambda.hpp>
+#include <lambda/stream.hpp>
 
 using namespace lambda;
 using namespace lambda::streams;

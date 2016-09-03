@@ -6,6 +6,8 @@
 namespace lambda {
 namespace streams {
 
+using namespace lambda::monad;
+
 template <class S, class F>
 class MapStream : public Stream {
     S stream;

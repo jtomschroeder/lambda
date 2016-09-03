@@ -3,6 +3,7 @@
 #include "lambda.hpp"
 
 using namespace lambda;
+using namespace lambda::monad;
 
 auto id_m(int n) { return n; }
 auto id_s(int n) { return std::to_string(n); }

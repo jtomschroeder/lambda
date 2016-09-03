@@ -5,6 +5,7 @@
 using namespace lambda;
 using namespace lambda::factory;
 using namespace lambda::streams;
+using namespace lambda::monad;
 
 TEST(lambda, stream) {
     auto s = stream(vector(1, 2, 3, 4)) | map(plus(1)) | filter(less(4));
