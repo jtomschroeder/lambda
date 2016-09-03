@@ -24,7 +24,7 @@ class Range : public Stream {
 public:
     using Type = typename R::value_type;
 
-    explicit Range(R &&range) : range(range), begin_(begin(range)), end_(end(range)) {}
+    explicit Range(R &&rng) : range(rng), begin_(begin(range)), end_(end(range)) {}
 
     Maybe<Type> next() { return begin_ != end_ ? some(std::move(*begin_++)) : none; }
 };

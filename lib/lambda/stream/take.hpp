@@ -15,7 +15,7 @@ class TakeStream : public Stream {
 public:
     using Type = typename S::Type;
 
-    TakeStream(S stream, I num) : stream(stream), count(0), num(num) {}
+    TakeStream(S &&stream, I num) : stream(std::move(stream)), count(0), num(num) {}
 
     Maybe<Type> next() { return count++ < num ? stream.next() : none; }
 };
@@ -28,8 +28,8 @@ public:
     explicit Take(I num) : num(num) {}
 
     template <class S>
-    auto pipe(S stream) const {
-        return TakeStream<S, I>{stream, num};
+    auto pipe(S &&stream) const {
+        return TakeStream<S, I>{std::move(stream), num};
     }
 };
 
@@ -48,14 +48,14 @@ class TakeWhileStream : public Stream {
 public:
     using Type = typename S::Type;
 
-    TakeWhileStream(S stream, P pred) : stream(std::move(stream)), pred(std::move(pred)) {}
+    TakeWhileStream(S &&stream, P pred) : stream(std::move(stream)), pred(std::move(pred)) {}
 
     Maybe<Type> next() {
         if (auto s = stream.next()) {
             return pred(*s) ? s : none;
-        } 
-            return none;
-        
+        }
+
+        return none;
     }
 };
 
@@ -67,8 +67,8 @@ public:
     explicit TakeWhile(P pred) : pred(std::move(pred)) {}
 
     template <class S>
-    auto pipe(S stream) const {
-        return TakeWhileStream<S, P>{stream, pred};
+    auto pipe(S &&stream) const {
+        return TakeWhileStream<S, P>{std::move(stream), pred};
     }
 };
 

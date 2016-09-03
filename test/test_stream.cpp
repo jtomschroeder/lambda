@@ -8,10 +8,8 @@ using namespace lambda::streams;
 using namespace lambda::monad;
 
 TEST(lambda, stream) {
-    auto s = stream(vector(1, 2, 3, 4)) | map(plus(1)) | filter(less(4));
-    while (auto val = s.next()) {
-        display << val << '\n';
-    }
+    ASSERT_EQ(vector(2, 3),
+              stream(vector(1, 2, 3, 4)) | map(plus(1)) | filter(less(4)) | collect());
 }
 
 TEST(lambda, streaming) {

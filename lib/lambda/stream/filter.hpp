@@ -14,7 +14,7 @@ class FilterStream : public Stream {
 public:
     using Type = typename S::Type;
 
-    FilterStream(S stream, F fn) : stream(std::move(stream)), fn(std::move(fn)) {}
+    FilterStream(S &&stream, F fn) : stream(std::move(stream)), fn(std::move(fn)) {}
 
     Maybe<Type> next() {
         while (auto s = std::move(stream.next())) {
@@ -34,8 +34,8 @@ public:
     explicit Filter(F f) : f(std::move(f)) {}
 
     template <class S>
-    auto pipe(S stream) const {
-        return FilterStream<S, F>{stream, f};
+    auto pipe(S &&stream) const {
+        return FilterStream<S, F>{std::move(stream), f};
     }
 };
 
