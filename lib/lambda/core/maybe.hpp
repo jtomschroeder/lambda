@@ -29,24 +29,24 @@ struct None {
 
 template <typename T>
 struct Maybe {
-    using Some = Some<T>;
+    using S = Some<T>;
 
     Maybe() : value(None{}) {}
     Maybe(None none) : value(none) {}
 
-    Maybe(Some some) : value(some) {}
+    Maybe(S some) : value(some) {}
 
     template <class U>
-    Maybe(U val) : Maybe(Some{val}) {}
+    Maybe(U val) : Maybe(S{val}) {}
 
-    constexpr const T &operator*() const & { return *value.template target<Some>()->value; }
+    constexpr const T &operator*() const & { return *value.template target<S>()->value; }
 
     constexpr explicit operator bool() const { return value.which() == 0u; }
 
     constexpr bool operator==(const Maybe<T> &m) const { return value == m.value; }
 
 private:
-    variant<Some, None> value;
+    variant<S, None> value;
 };
 
 template <class T>
