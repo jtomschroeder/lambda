@@ -12,12 +12,6 @@ set(TESTS ${CMAKE_CURRENT_SOURCE_DIR}/test_bind.cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/test_stream.cpp
           ${CMAKE_CURRENT_SOURCE_DIR}/test_lambda.cpp)
 
-add_executable(test_lambda ${TESTS})
+add_executable(verify ${TESTS})
 
-target_link_libraries(test_lambda gtest gmock gmock_main)
-
-add_custom_target(verify
-                  COMMAND ${CMAKE_CURRENT_BINARY_DIR}/test_lambda
-                  COMMENT "Build & Run Tests"
-                  USES_TERMINAL
-                  DEPENDS test_lambda)
+target_link_libraries(verify gtest gmock gmock_main)

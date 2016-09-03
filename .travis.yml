@@ -39,12 +39,10 @@ before_install:
 install:
   - cd $CHECKOUT_PATH
 
-  - mkdir -p build && cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-
 script:
-  - make verify
-  - make perf
+  - ./build.sh verify
+  - ./build.sh perf
+  - ./build.sh demo
 
 notifications:
   email: false

@@ -6,12 +6,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../lib
 
 set(SRC ${CMAKE_CURRENT_SOURCE_DIR}/euler.cpp)
 
-add_executable(demo_lambda ${SRC})
+add_executable(demo ${SRC})
 
-target_link_libraries(demo_lambda)
-
-add_custom_target(demo
-                  COMMAND ${CMAKE_CURRENT_BINARY_DIR}/demo_lambda
-                  COMMENT "Run demo!"
-                  USES_TERMINAL
-                  DEPENDS demo_lambda)
+target_link_libraries(demo)

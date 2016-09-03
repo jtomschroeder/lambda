@@ -2,7 +2,9 @@
 #include <cmath>
 
 #include "problem.hpp"
+
 #include "lambda.hpp"
+#include "lambda/stream.hpp"
 
 using namespace lambda;
 using namespace lambda::streams;
