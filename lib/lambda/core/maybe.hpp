@@ -17,16 +17,18 @@ struct None {
 
 template <typename T>
 struct Maybe {
-    using Some = std::shared_ptr<T>;
+    using Some = T;
 
     Maybe() : var(None{}) {}
     Maybe(None none) : var(none) {}
 
-    Maybe(T some) : var(Some(new T{std::move(some)})) {}
+    Maybe(Some some) : var(std::move(some)) {}
 
-    constexpr const T &value() const & { return *var.template target<Some>()->get(); }
+    constexpr const T *get() const & { return var.template target<Some>(); }
+    constexpr const T &value() const & { return *var.template target<Some>(); }
 
-    constexpr const T &operator*() const & { return *var.template target<Some>()->get(); }
+    constexpr const T &operator*() const & { return value(); }
+    constexpr const T *operator->() const & { return get(); }
 
     constexpr bool is_some() const { return var.which() == 0u; }
     constexpr bool is_none() const { return var.which() == 1u; }
